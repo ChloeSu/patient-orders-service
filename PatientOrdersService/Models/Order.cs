@@ -10,6 +10,7 @@ namespace PatientOrdersService.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Key]
         public int PatientId { get; set; }
 
         public string Message { get; set; } = string.Empty;

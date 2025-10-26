@@ -26,14 +26,21 @@ namespace PatientOrdersService.Controllers
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderReq req)
         {
             var affected = await _orderService.CreateOrderAsync(req);
-            return affected > 0 ? Ok("Order created.") : BadRequest("Failed to create order.");
+            return affected > 0 ? Ok("Order created.") : BadRequest(new { Status = StatusCodes.Status400BadRequest, Message = "Failed to create order." });
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderReq req)
         {
-            var affected = await _orderService.UpdateOrderAsync(req);
-            return affected > 0 ? Ok("Order updated.") : BadRequest("Failed to update order.");
+            try
+            {
+                var affected = await _orderService.UpdateOrderAsync(req);
+                return affected > 0 ? Ok("Order updated.") : BadRequest(new { Status = StatusCodes.Status400BadRequest, Message = "Failed to update order." });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { Status = StatusCodes.Status400BadRequest, Message = ex.Message });
+            }
         }
     }
 }

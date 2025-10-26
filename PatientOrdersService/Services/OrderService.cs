@@ -38,6 +38,20 @@ namespace PatientOrdersService.Services
         {
             _logger.LogInformation("Updating order {OrderId}", req.Id);
             var order = _mapper.Map<Order>(req);
+
+            var existing = await _orderRepository.GetByKeyAsync(new { order.Id });
+            if (existing.Count() == 0)
+            {
+                throw new InvalidOperationException($"Order {order.Id} 不存在");
+            }
+            else if (existing.FirstOrDefault()?.PatientId != order.PatientId)
+            {
+                throw new InvalidOperationException("病患資料不一致");
+            }
+                
+            // 這裡可以用 AutoMapper 更新屬性
+            existing.First().Message = order.Message;
+
             return await _orderRepository.UpdateAsync(order);
         }
     }

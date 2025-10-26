@@ -1,6 +1,7 @@
 using AutoMapper;
 using PatientOrdersService.Data;
 using PatientOrdersService.Mappings;
+using PatientOrdersService.Middlewares;
 using PatientOrdersService.Repositories;
 using PatientOrdersService.Repositories.Interfaces;
 using PatientOrdersService.Services;
@@ -38,5 +39,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<CustomExceptionMiddleware>();
 app.MapControllers();
 app.Run();
