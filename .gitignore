@@ -1,0 +1,7 @@
+/.docker/db-data
+/PatientOrdersService/obj
+/PatientOrdersService/bin
+/PatientOrdersService.Common/bin
+/PatientOrdersService.Common/obj
+/PatientOrdersService.Tests/bin
+/PatientOrdersService.Tests/obj
